@@ -1,0 +1,86 @@
+[size=x-large][b]Group Templates[/b][/size]
+[i]Version 1.1.0[/i] – Templates abhängig von der Benutzergruppe umschalten, zentral im ACP und ohne PHP im Template.
+
+[size=large][b]Worum geht's?[/b][/size]
+
+In RPG-Foren sehen Beiträge, Profile oder der Header oft anders aus – je nachdem, ob ein Spielenden-Account oder ein Charakter-Account dahintersteht. Bisher steckt diese Unterscheidung meist als PHP-Schnipsel mit festen Gruppen-IDs in vielen Templates verteilt. Group Templates sammelt alle Umschaltungen auf einer ACP-Seite: Du legst fest, welches Template standardmäßig gilt und welche Alternative für welche Gruppen greift. MyBB wertet dann einfach das passende Template aus.
+
+[size=large][b]Highlights[/b][/size]
+
+[list]
+[*] Beliebige Templates pro Gruppe umschalten – im Beitrag, Profil, in der Mitgliederliste oder für die Person, die gerade schaut
+[*] Ein Standard-Template plus beliebig viele Alternativen mit eigener Gruppenliste
+[*] Kennungen als Template-Variable, z. B. für eigene CSS-Klassen
+[*] Templates per [i]{$grouptemplates['name']}[/i] einbinden
+[*] Kein PHP in Templates, keine Extra-Abfrage pro Beitrag
+[/list]
+
+[size=large][b]Was das Plugin alles kann[/b][/size]
+
+[b]Für Mitglieder[/b]
+[list]
+[*][b]Passende Darstellung[/b] – Beiträge, Profile, Zeilen der Mitgliederliste und Header/Footer zeigen automatisch die Variante, die zur Gruppe des jeweiligen Accounts passt. [i](überall im Forum)[/i]
+[/list]
+
+[b]Für Administratoren[/b]
+[list]
+[*][b]Schaltstellen anlegen[/b] – Du wählst Template-Set, Bereich (Beitrag, Profil, Mitgliederliste oder betrachtende Person), das umzuschaltende Ziel-Template und das Standard-Template. [i](ACP → Templates & Style → Group Templates)[/i]
+[*][b]Alternativen festlegen[/b] – Pro Alternative bestimmst du Template, Kennung, Gruppen und ob nur die Hauptgruppe, die Anzeigegruppe oder alle Gruppen geprüft werden. Die erste passende Alternative gewinnt; die Reihenfolge stellst du per Sortierung ein. [i](ACP → Group Templates → Schaltstelle)[/i]
+[*][b]Marker im Template[/b] – Am Anfang des Ziel-Templates steht ein unsichtbarer Kommentar mit der aktuellen Konfiguration. Alter Inhalt bleibt dahinter erhalten, wird aber nicht mehr ausgeführt. Löschst du die Schaltstelle, ist das alte Verhalten sofort zurück.
+[*][b]Kennungen für CSS[/b] – Variablen wie [i]{$post['grouptemplate']['postbit']}[/i] liefern die Kennung der gewählten Variante, z. B. für [i]class="post post-user"[/i].
+[*][b]Templates einbinden[/b] – Mit [i]{$grouptemplates['name']}[/i] bindest du ein Template ein, bei einer Schaltstelle die passende Variante. Ziel-Templates im Bereich „Betrachter" dürfen sogar rein virtuell sein, und leere Varianten geben einfach nichts aus.
+[/list]
+
+[b]Zusammenspiel mit anderen Plugins[/b]
+[list]
+[*][b]Theme Variants[/b] – Ersetzt Theme Variants ein Template für ein Design, schaltet Group Templates anschließend zwischen den bereits ersetzten Varianten um. Ohne Theme Variants funktioniert alles genauso.
+[/list]
+
+[size=large][b]So sieht's aus[/b][/size]
+
+[i]Screenshot folgt[/i] – Übersicht der Schaltstellen im ACP
+[i]Screenshot folgt[/i] – Alternativen einer Schaltstelle
+
+[size=large][b]Einstellungen[/b][/size]
+
+Group Templates hat keine globalen Einstellungen. Alles stellst du direkt an den Schaltstellen und Alternativen ein.
+
+[size=large][b]Voraussetzungen[/b][/size]
+
+[list]
+[*] MyBB 1.8.x
+[*] PHP 7.4 oder 8.x
+[*] Keine weiteren Plugins nötig; optional zusammen mit Theme Variants nutzbar
+[/list]
+
+[size=large][b]Installation[/b][/size]
+
+[list=1]
+[*] Dateien in das MyBB-Stammverzeichnis kopieren (Ordnerstruktur beibehalten)
+[*] ACP → Konfiguration → Plugins → Group Templates → Installieren & aktivieren
+[*] ACP → Admin-Berechtigungen: Recht „Group Templates" für die gewünschten Admin-Gruppen setzen
+[*] ACP → Templates & Style → Group Templates → erste Schaltstelle anlegen
+[*] Wenn alles passt: alte PHP-Blöcke unter dem Marker im Ziel-Template von Hand entfernen (vorher Backup)
+[/list]
+
+[size=large][b]Grenzen & Ausblick[/b][/size]
+
+Im Beitrag lassen sich nur Templates umschalten, die MyBB nach dem Postbit-Hook auswertet – etwa [i]postbit[/i] und [i]postbit_classic[/i]. Unter-Templates wie [i]postbit_author_user[/i] oder [i]postbit_avatar[/i] entstehen früher und werden deshalb im ACP abgelehnt. Gäste und gelöschte Accounts zählen immer als Gruppe „Gäste".
+
+[size=large][b]Für die Entwicklung[/b][/size]
+
+[list]
+[*] [i]grouptemplates_resolve($context, $target, $user)[/i] – liefert Template und Kennung der passenden Variante oder [i]null[/i]
+[*] [i]grouptemplates_match($user, $alternative)[/i] und [i]grouptemplates_get_user_groups($user, $mode)[/i]
+[/list]
+
+[size=large][b]Download & Quellcode[/b][/size]
+
+&raquo; [url=https://github.com/pand0rica/mybb-accounttype-templates]GitHub: pand0rica/mybb-accounttype-templates[/url] – Änderungen im [url=https://github.com/pand0rica/mybb-accounttype-templates/blob/main/CHANGELOG.md]Changelog[/url], Lizenz GPL-3.0
+
+[size=large][b]Unterstützung[/b][/size]
+
+<i class="cp cp-tea"></i> Wenn dir das Plugin gefällt, kannst du mir gerne einen Tee spendieren: [url=https://ko-fi.com/pand0rica]ko-fi.com/pand0rica[/url]
+
+[size=small]Fragen, Bugs oder Feature-Wünsche gerne als GitHub Issue melden oder hier im Thread.
+Ich freue mich, wenn ihr mir den Link dalasst, wo das Plugin verwendet wird.[/size]
